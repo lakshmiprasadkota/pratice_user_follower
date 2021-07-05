@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:pratice_user_followers/models/shimmers.dart';
+import '../shimmers/shimmers.dart';
 import 'package:pratice_user_followers/models/user_model.dart';
 import 'package:pratice_user_followers/network/manager.dart';
 import 'package:pratice_user_followers/network/response.dart';
@@ -13,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool fetching = true;
   UserDetails? model;
-UserDetails userDetails = UserDetails();
+  UserDetails userDetails = UserDetails();
 
   void getHttp() async {
     setState(() {
@@ -24,14 +23,12 @@ UserDetails userDetails = UserDetails();
       // Response response = await dioClient.ref!.get(
       //     "/search/users?q=followers%3A%3E%3D1000&ref=searchresults&s=followers&type=Users");
 
+      if (response.status == ResponseStatus.SUCCESS) {
+        setState(() {
+          model = response.data;
 
-
-        if (response.status == ResponseStatus.SUCCESS) {
-          setState(() {
-            model = response.data;
-
-            fetching = false;
-          });
+          fetching = false;
+        });
         fetching = false;
         print(response);
       }
@@ -52,25 +49,25 @@ UserDetails userDetails = UserDetails();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
-            children: [
-          buildBody()
-            ],
+            children: [buildBody()],
           ),
         ),
       ),
     );
   }
-  Widget buildBody (){
-    if(fetching){
-      return BreakingNewsShimmer();
+
+  Widget buildBody() {
+    if (fetching) {
+      return HomeScreenShimmer();
     }
-    return   ListView.separated(
+    return ListView.separated(
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(vertical: 50),
       shrinkWrap: true,
@@ -79,24 +76,24 @@ UserDetails userDetails = UserDetails();
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${model!.items![index].login}" ,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700
-              ),),
-
+            Text(
+              "${model!.items![index].login}",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
             CircleAvatar(
-              radius: 30,
+                radius: 30,
                 backgroundColor: Colors.transparent,
-                backgroundImage: NetworkImage(model!.items![index].avatarUrl,))
+                backgroundImage: NetworkImage(
+                  model!.items![index].avatarUrl,
+                ))
           ],
         );
-
-      }, separatorBuilder: (BuildContext context, int index) {
-      return SizedBox(height: 20,);
-    },);
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(
+          height: 20,
+        );
+      },
+    );
   }
 }
-
-
-

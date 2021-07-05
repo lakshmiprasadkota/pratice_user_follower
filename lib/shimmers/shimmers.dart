@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class BreakingNewsShimmer extends StatelessWidget {
+class HomeScreenShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
@@ -22,29 +22,30 @@ class BreakingNewsShimmer extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-          Container(
-          decoration: BoxDecoration(
-          color: Colors.white,
-          ),
-            height: 30,
-           width: 150,
-
-          ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                height: 30,
+                width: 150,
+              ),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   color: Colors.white,
                 ),
-height: 50,
+                height: 50,
                 width: 50,
-
               )
             ],
           );
-
-        }, separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: 20,);
-      },),
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return SizedBox(
+            height: 20,
+          );
+        },
+      ),
     );
   }
 }
